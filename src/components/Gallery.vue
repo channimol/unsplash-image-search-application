@@ -1,40 +1,40 @@
 <template>
   <div class="photos">
     <div class="image-wrapper" v-for="item in data" :key="item.id">
-      <a :href="item.links.download_link" download="item">
-        <b-image
-          class="content-image"
-          :src="item.urls.regular"
-          :alt="item.alt_description"
-          placeholder="https://bulma.io/images/placeholders/1280x960.png"
-        >
-          <template #placeholder>
-            <b-skeleton class="skeleton-placeholder" height="100%"></b-skeleton>
-          </template>
-        </b-image>
-        <div class="content-overlay"></div>
-        <div class="content-details fadeIn-left">
-          <div style="diplay: flex; flex-direction: column">
-            <div class="top-right">
-              <b-button size="is-small" type="is-danger" @click="handleLike" icon-right="heart"></b-button>
-              <b-button
-                style="margin-left: 4px"
-                size="is-small"
-                type="is-primary"
-                @click="handleLike"
-                icon-right="download"
-              ></b-button>
-            </div>
-            <div class="bottom-left">
-              <div>
-                <img :src="item.user.profile_image.small" />
-                <p v-if="!!item.user">{{item.user.username}}</p>
-                <p v-else-if="!!item.sponsorship">{{item.sponsorship.tagline}}</p>
-              </div>
+      <!-- <a :href="item.links.download" target="_blank"> -->
+      <b-image
+        class="content-image"
+        :src="item.urls.regular"
+        :alt="item.alt_description"
+        placeholder="https://bulma.io/images/placeholders/1280x960.png"
+      >
+        <template #placeholder>
+          <b-skeleton class="skeleton-placeholder" height="100%"></b-skeleton>
+        </template>
+      </b-image>
+      <div class="content-overlay"></div>
+      <div class="content-details fadeIn-left">
+        <div style="diplay: flex; flex-direction: column">
+          <div class="top-left">
+            <b-button size="is-small" type="is-danger" @click="handleLike" icon-right="heart"></b-button>
+            <b-button
+              style="margin-left: 4px"
+              size="is-small"
+              type="is-primary"
+              @click="handleDownload(item)"
+              icon-right="download"
+            ></b-button>
+          </div>
+          <div class="bottom-left" @click="seeAuthor(item)">
+            <div>
+              <img :src="item.user.profile_image.small" />
+              <p v-if="!!item.user">{{item.user.username}}</p>
+              <p v-else-if="!!item.sponsorship">{{item.sponsorship.tagline}}</p>
             </div>
           </div>
         </div>
-      </a>
+      </div>
+      <!-- </a> -->
     </div>
   </div>
 </template>
@@ -52,14 +52,17 @@ export default {
   },
   methods: {
     handleLike() {
-      console.log("hello");
-    },
-    handleDownload(item) {
+      console.log("like");
       const { id, links } = item;
-      console.log(id);
       // this.$api.get(`/photos/${id}/download`).then(res => {
       //   console.log(res);
       // });
+    },
+    handleDownload(item) {
+      location.href = `${item.links.download}?force=true`;
+    },
+    seeAuthor(item) {
+      window.location.href = `${item.links.html}`;
     }
   }
 };
@@ -165,10 +168,10 @@ export default {
 .bottom-left div p {
   margin-left: 6px;
 }
-.top-right {
+.top-left {
   position: absolute;
   top: 8px;
-  right: 16px;
+  left: 16px;
 }
 
 @media (max-width: 1200px) {

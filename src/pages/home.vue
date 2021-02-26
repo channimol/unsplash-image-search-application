@@ -3,7 +3,7 @@
     <section class="hero is-medium is-link">
       <div class="hero-body">
         <div class="container">
-          <p class="title">Unsplash</p>
+          <p class="title">Photograph</p>
           <p class="subtitle">Powered by creators everywhere.</p>
 
           <b-field>
